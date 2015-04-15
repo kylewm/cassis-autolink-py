@@ -38,6 +38,12 @@ class CheckEmail(unittest.TestCase):
 class CheckImage(unittest.TestCase):
     def test_checkgif(self):
         self.assertEqual(cassis.auto_link('http://media2.giphy.com/media/it8ZQy0jXZiX6/giphy.gif'), '<a class="auto-link" href="http://media2.giphy.com/media/it8ZQy0jXZiX6/giphy.gif">http://media2.giphy.com/media/it8ZQy0jXZiX6/giphy.gif</a>')
+    def test_checksvg(self):
+        self.assertEqual(cassis.auto_link('http://svgur.com/i/19.svg'), '<a class="auto-link" href="http://svgur.com/i/19.svg">http://svgur.com/i/19.svg</a>')
+    def test_checkgifinline(self):
+        self.assertEqual(cassis.auto_link('http://media2.giphy.com/media/it8ZQy0jXZiX6/giphy.gif',True), '<a class="auto-link figure" href="http://media2.giphy.com/media/it8ZQy0jXZiX6/giphy.gif"><img alt="gif" src="http://media2.giphy.com/media/it8ZQy0jXZiX6/giphy.gif"/></a>')
+    def test_checksvginline(self):
+        self.assertEqual(cassis.auto_link('http://svgur.com/i/19.svg',True), '<a class="auto-link figure" href="http://svgur.com/i/19.svg"><img alt="svg" src="http://svgur.com/i/19.svg"/></a>')
 
 class CheckMixed(unittest.TestCase):
     def test_checkgif(self):
