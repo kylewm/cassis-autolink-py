@@ -8,6 +8,6 @@ setup(name='cassis-autolink',
       author='Kyle Mahan',
       author_email='kyle@kylewm.com',
       url='https://github.com/kylewm/cassis-autolink-py/',
-      py_modules = ['cassis'],
-      test_suite = 'cassistest'
+      py_modules=['cassis'],
+      test_suite='cassistest'
 )
