@@ -97,7 +97,7 @@ def auto_link(text, do_embed=False):
                         yvid + '"></iframe>' +
                         afterlink)
             elif mi.startswith('@'):
-                if (sp[i + 1][0] == '.' and
+                if (sp[i + 1][:1] == '.' and
                         spliti != '' and ctype_email_local(spliti[-1])):
                     # if email address, simply append info, no linking
                     text = text + mi + afterlink
