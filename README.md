@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kylewm/cassis-autolink-py.svg)](https://travis-ci.org/kylewm/cassis-autolink-py)
+
 # Python port of (a subset of) CASSIS
 
 This library contains some useful functions ported to Python from
