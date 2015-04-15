@@ -70,7 +70,7 @@ def auto_link(text, do_embed=False):
 
             if (fe and
                 (fe == '.jpeg' or fe == '.jpg' or fe == '.png' or
-                 fe == '.gif')):
+                 fe == '.gif' or fe == '.svg')):
                 alt = 'a ' + 'photo' if 'photo' in mi else fe[1:]
                 text = (text + '<a class="auto-link figure" href="' +
                         wmi + '"><img alt="' + alt + '" src="' +
