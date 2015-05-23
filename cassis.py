@@ -121,6 +121,8 @@ def auto_link(text, do_embed=False,maxUrlLength=0):
             elif wp.fragment:
                 fragmentioned = urllib.unquote_plus(wp.fragment)
                 if ' ' in fragmentioned and do_embed:
+                    if fragmentioned.startswith('#'):
+                        fragmentioned = fragmentioned[1:]
                     text = (text + '<blockquote class="auto-mention"><a class="auto-link" href="' +
                         wmi + '"><cite>' + wp.netloc +'</cite><p>' + fragmentioned
                          + '</p></a></blockquote>' + afterlink)

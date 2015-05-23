@@ -64,6 +64,8 @@ class CheckMixed(unittest.TestCase):
 class CheckFragmentions(unittest.TestCase):
     def test_checkspacestyle(self):
         self.assertEqual(cassis.auto_link('“In the case of digital content, the artifact, once created and published, is not static.” https://kartikprabhu.com/article/marginalia#In%20the%20case%20of%20digital%20content,%20the%20artifact,%20once%20created%20and%20published,%20is%20not%20static.',do_embed=True),'“In the case of digital content, the artifact, once created and published, is not static.” <blockquote class="auto-mention"><a class="auto-link" href="https://kartikprabhu.com/article/marginalia#In%20the%20case%20of%20digital%20content,%20the%20artifact,%20once%20created%20and%20published,%20is%20not%20static"><cite>kartikprabhu.com</cite><p>In the case of digital content, the artifact, once created and published, is not static</p></a></blockquote>.')
+    def test_checkplustyle(self):
+        self.assertEqual(cassis.auto_link('http://www.kevinmarks.com/mentionquote.html##we+potentially+have+a+quote+from+the+source+in+the+link+itself',do_embed=True),'<blockquote class="auto-mention"><a class="auto-link" href="http://www.kevinmarks.com/mentionquote.html##we+potentially+have+a+quote+from+the+source+in+the+link+itself"><cite>www.kevinmarks.com</cite><p>we potentially have a quote from the source in the link itself</p></a></blockquote>')
         
 if __name__ == '__main__':
     unittest.main()
