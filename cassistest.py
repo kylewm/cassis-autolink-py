@@ -2,8 +2,11 @@
 
 '''unit tests for cassis.py '''
 
+from __future__ import unicode_literals, print_function
 import cassis
 import unittest
+
+
 
 class CheckTwitter(unittest.TestCase):
     def test_checkname(self):
@@ -33,19 +36,21 @@ class CheckURL(unittest.TestCase):
     def test_checknamewithttp(self):
         self.assertEqual(cassis.auto_link('http://kevinmarks.com'), '<a class="auto-link" href="http://kevinmarks.com">http://kevinmarks.com</a>')
 
+
 class CheckShortURL(unittest.TestCase):
     def test_checkname(self):
-        self.assertEqual(cassis.auto_link('kevinmarks.com',maxUrlLength=10), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks…</a>')
-        self.assertEqual(cassis.auto_link('kevinmarks.com',maxUrlLength=20), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
-        self.assertEqual(cassis.auto_link('kevinmarks.com',maxUrlLength=14), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
-        self.assertEqual(cassis.auto_link('http://kevinmarks.com',maxUrlLength=10), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks…</a>')
-        self.assertEqual(cassis.auto_link('https://kevinmarks.com',maxUrlLength=20), '<a class="auto-link" href="https://kevinmarks.com">kevinmarks.com</a>')
-        self.assertEqual(cassis.auto_link('http://kevinmarks.com',maxUrlLength=14), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
+        self.assertEqual(cassis.auto_link('kevinmarks.com',max_url_length=10), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks…</a>')
+        self.assertEqual(cassis.auto_link('kevinmarks.com',max_url_length=20), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
+        self.assertEqual(cassis.auto_link('kevinmarks.com',max_url_length=14), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
+        self.assertEqual(cassis.auto_link('http://kevinmarks.com',max_url_length=10), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks…</a>')
+        self.assertEqual(cassis.auto_link('https://kevinmarks.com',max_url_length=20), '<a class="auto-link" href="https://kevinmarks.com">kevinmarks.com</a>')
+        self.assertEqual(cassis.auto_link('http://kevinmarks.com',max_url_length=14), '<a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
 
 
 class CheckEmail(unittest.TestCase):
     def test_checkemail(self):
         self.assertEqual(cassis.auto_link('kevinmarks@gmail.com'), 'kevinmarks@gmail.com')
+
 
 class CheckImage(unittest.TestCase):
     def test_checkgif(self):
@@ -57,16 +62,17 @@ class CheckImage(unittest.TestCase):
     def test_checksvginline(self):
         self.assertEqual(cassis.auto_link('http://svgur.com/i/19.svg',True), '<a class="auto-link figure" href="http://svgur.com/i/19.svg"><img alt="svg" src="http://svgur.com/i/19.svg"/></a>')
 
+
 class CheckMixed(unittest.TestCase):
     def test_checkgif(self):
         self.assertEqual(cassis.auto_link('see kevinmarks.com and kevinmarks.com/km.jpg and kevinmarks.com'), 'see <a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a> and <a class="auto-link" href="http://kevinmarks.com/km.jpg">kevinmarks.com/km.jpg</a> and <a class="auto-link" href="http://kevinmarks.com">kevinmarks.com</a>')
+
 
 class CheckFragmentions(unittest.TestCase):
     def test_checkspacestyle(self):
         self.assertEqual(cassis.auto_link('“In the case of digital content, the artifact, once created and published, is not static.” https://kartikprabhu.com/article/marginalia#In%20the%20case%20of%20digital%20content,%20the%20artifact,%20once%20created%20and%20published,%20is%20not%20static.',do_embed=True),'“In the case of digital content, the artifact, once created and published, is not static.” <blockquote class="auto-mention"><a class="auto-link" href="https://kartikprabhu.com/article/marginalia#In%20the%20case%20of%20digital%20content,%20the%20artifact,%20once%20created%20and%20published,%20is%20not%20static"><cite>kartikprabhu.com</cite><p>In the case of digital content, the artifact, once created and published, is not static</p></a></blockquote>.')
     def test_checkplustyle(self):
         self.assertEqual(cassis.auto_link('http://www.kevinmarks.com/mentionquote.html##we+potentially+have+a+quote+from+the+source+in+the+link+itself',do_embed=True),'<blockquote class="auto-mention"><a class="auto-link" href="http://www.kevinmarks.com/mentionquote.html##we+potentially+have+a+quote+from+the+source+in+the+link+itself"><cite>www.kevinmarks.com</cite><p>we potentially have a quote from the source in the link itself</p></a></blockquote>')
-        
+
 if __name__ == '__main__':
     unittest.main()
-

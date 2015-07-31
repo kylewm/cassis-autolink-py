@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals, print_function
 
 import re
 import sys
 import os.path
-import urllib
 
 if sys.version < '3':
     from urlparse import urlparse
+    from urllib import unquote_plus
+    string_type = unicode
 else:
-    from urllib.parse import urlparse
+    from urllib.parse import urlparse, unquote_plus
     xrange = range
+    string_type = str
 
 
 def auto_link_re():
@@ -24,7 +27,7 @@ def auto_link_re():
     # - Tantek 2010-046 (moved to auto_link_re 2012-062)
 
 
-def auto_link(text, do_embed=False,maxUrlLength=0):
+def auto_link(text, do_embed=False, max_url_length=0):
     """ auto_link: param 1: text; param 2: do embeds or not
     auto_link is idempotent, works on plain text or typical markup.
     """
@@ -70,14 +73,13 @@ def auto_link(text, do_embed=False,maxUrlLength=0):
             hn = wp.netloc
             pa = wp.path
             ih = wmi.startswith('http')
-            displayUrl = mi
-            if maxUrlLength:
-                displayUrl = wp.netloc+wp.path
+            display_url = mi
+            if max_url_length:
+                display_url = string_type(wp.netloc + wp.path)
                 if wp.query:
-                    displayUrl = displayUrl + '?'+wp.query
-                if len(displayUrl)> maxUrlLength:
-                    shortUrl = unicode(displayUrl[:maxUrlLength])+u'…'
-                    displayUrl = shortUrl.encode('utf-8')
+                    display_url = display_url + '?' + wp.query
+                if len(display_url) > max_url_length:
+                    display_url = string_type(display_url[:max_url_length]) + '…'
             if (fe and
                 (fe == '.jpeg' or fe == '.jpg' or fe == '.png' or
                  fe == '.gif' or fe == '.svg')):
@@ -91,7 +93,7 @@ def auto_link(text, do_embed=False,maxUrlLength=0):
                         wmi, '"></video></a>' + afterlink)
             elif ih and hn == 'vimeo.com' and pa[1:].isdigit():
                 text = (text + '<a class="auto-link" href="' +
-                        wmi + '">' + displayUrl + '</a> <iframe class="vimeo-player auto-link figure" width="480" height="385" style="border:0" src="' + prot + '//player.vimeo.com/video/' +
+                        wmi + '">' + display_url + '</a> <iframe class="vimeo-player auto-link figure" width="480" height="385" style="border:0" src="' + prot + '//player.vimeo.com/video/' +
                         pa[1:] + '"></iframe>' + afterlink)
             elif (hn == 'youtu.be' or
                   ((hn == 'youtube.com' or hn == 'www.youtube.com')
@@ -103,32 +105,32 @@ def auto_link(text, do_embed=False,maxUrlLength=0):
                     yvid = mi[offs + 8:].split('&', 1)[0]
 
                 text = (text + '<a class="auto-link" href="' +
-                        wmi + '">' + displayUrl + '</a> <iframe class="youtube-player auto-link figure" width="480" height="385" style="border:0" src="' + prot + '//www.youtube.com/embed/' +
+                        wmi + '">' + display_url + '</a> <iframe class="youtube-player auto-link figure" width="480" height="385" style="border:0" src="' + prot + '//www.youtube.com/embed/' +
                         yvid + '"></iframe>' +
                         afterlink)
             elif mi.startswith('@'):
                 if (sp[i + 1][:1] == '.' and
                         spliti != '' and ctype_email_local(spliti[-1])):
                     # if email address, simply append info, no linking
-                    text = text + displayUrl + afterlink
+                    text = text + display_url + afterlink
 
                 else:
                     # treat it as a Twitter @-username reference and link it
                     text = (text + '<a class="auto-link h-x-username" href="' +
-                            wmi + '">' + displayUrl + '</a>' +
+                            wmi + '">' + display_url + '</a>' +
                             afterlink)
 
             elif wp.fragment:
-                fragmentioned = urllib.unquote_plus(wp.fragment)
+                fragmentioned = unquote_plus(wp.fragment)
                 if ' ' in fragmentioned and do_embed:
                     if fragmentioned.startswith('#'):
                         fragmentioned = fragmentioned[1:]
                     text = (text + '<blockquote class="auto-mention"><a class="auto-link" href="' +
-                        wmi + '"><cite>' + wp.netloc +'</cite><p>' + fragmentioned
-                         + '</p></a></blockquote>' + afterlink)
+                            wmi + '"><cite>' + wp.netloc + '</cite><p>' + fragmentioned
+                            + '</p></a></blockquote>' + afterlink)
             else:
                 text = (text + '<a class="auto-link" href="' +
-                        wmi + '">' + displayUrl + '</a>' +
+                        wmi + '">' + display_url + '</a>' +
                         afterlink)
         else:
             text = text + mi
